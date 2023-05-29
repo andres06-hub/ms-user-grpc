@@ -3,14 +3,29 @@ syntax = "proto3";
 package users;
 option go_package="./users";
 
-message Request {
-  string ping = 1;
+message CreateUserRequest {
+  string identity = 1;
+  string name = 2;
+  string email = 3;
+}
+
+message FindUserRequest {
+  string id = 1;
 }
 
 message Response {
-  string pong = 1;
+  string success = 1;
+  // TODO: message error or message success
+  string message = 2;
+  Data data = 3;
+}
+
+// TODO: data  
+message Data {
+  string name = 1; 
 }
 
 service Users {
-  rpc Ping(Request) returns(Response);
+  rpc createUser(CreateUserRequest) returns(Response);
+  rpc findUser(FindUserRequest) returns(Response);
 }
