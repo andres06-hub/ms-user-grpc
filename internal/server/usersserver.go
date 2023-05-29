@@ -22,7 +22,12 @@ func NewUsersServer(svcCtx *svc.ServiceContext) *UsersServer {
 	}
 }
 
-func (s *UsersServer) Ping(ctx context.Context, in *users.Request) (*users.Response, error) {
-	l := logic.NewPingLogic(ctx, s.svcCtx)
-	return l.Ping(in)
+func (s *UsersServer) CreateUser(ctx context.Context, in *users.CreateUserRequest) (*users.Response, error) {
+	l := logic.NewCreateUserLogic(ctx, s.svcCtx)
+	return l.CreateUser(in)
+}
+
+func (s *UsersServer) FindUser(ctx context.Context, in *users.FindUserRequest) (*users.Response, error) {
+	l := logic.NewFindUserLogic(ctx, s.svcCtx)
+	return l.FindUser(in)
 }

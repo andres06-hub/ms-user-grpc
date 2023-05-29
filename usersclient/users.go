@@ -13,11 +13,14 @@ import (
 )
 
 type (
-	Request  = users.Request
-	Response = users.Response
+	CreateUserRequest = users.CreateUserRequest
+	Data              = users.Data
+	FindUserRequest   = users.FindUserRequest
+	Response          = users.Response
 
 	Users interface {
-		Ping(ctx context.Context, in *Request, opts ...grpc.CallOption) (*Response, error)
+		CreateUser(ctx context.Context, in *CreateUserRequest, opts ...grpc.CallOption) (*Response, error)
+		FindUser(ctx context.Context, in *FindUserRequest, opts ...grpc.CallOption) (*Response, error)
 	}
 
 	defaultUsers struct {
@@ -31,7 +34,12 @@ func NewUsers(cli zrpc.Client) Users {
 	}
 }
 
-func (m *defaultUsers) Ping(ctx context.Context, in *Request, opts ...grpc.CallOption) (*Response, error) {
+func (m *defaultUsers) CreateUser(ctx context.Context, in *CreateUserRequest, opts ...grpc.CallOption) (*Response, error) {
 	client := users.NewUsersClient(m.cli.Conn())
-	return client.Ping(ctx, in, opts...)
+	return client.CreateUser(ctx, in, opts...)
+}
+
+func (m *defaultUsers) FindUser(ctx context.Context, in *FindUserRequest, opts ...grpc.CallOption) (*Response, error) {
+	client := users.NewUsersClient(m.cli.Conn())
+	return client.FindUser(ctx, in, opts...)
 }
